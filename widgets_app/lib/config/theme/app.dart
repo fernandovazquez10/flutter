@@ -26,6 +26,7 @@ class AppTheme{
     colorSchemeSeed: colorList[ selectColor ],
     appBarTheme: const AppBarTheme(
       centerTitle: false,
-    )
+    ),
+    dividerColor: Colors.transparent,
   );
 }
