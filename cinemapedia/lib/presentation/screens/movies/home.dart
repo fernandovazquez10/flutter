@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:cinemapedia/presentation/providers/movies/movies.dart';
+import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
 
 
@@ -37,11 +37,12 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     if (nowPlayingMovies.isEmpty) {
       return const Center(child: CircularProgressIndicator(strokeWidth: 2));
     }
+    final moviesSlideshow = ref.watch( moviesSlideshowProvider );
     return Column(
       children: [
         const CustomAppbar(),
 
-        MoviesSlideshow(movies: nowPlayingMovies)
+        MoviesSlideshow(movies: moviesSlideshow)
       ],
     );
   }
