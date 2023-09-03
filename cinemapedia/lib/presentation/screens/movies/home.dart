@@ -12,7 +12,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: _HomeView());
+    return const Scaffold(
+      body: _HomeView(),
+      bottomNavigationBar: CustomButtonNavigation(),
+    );
   }
 }
 
@@ -42,7 +45,13 @@ class _HomeViewState extends ConsumerState<_HomeView> {
       children: [
         const CustomAppbar(),
 
-        MoviesSlideshow(movies: moviesSlideshow)
+        MoviesSlideshow(movies: moviesSlideshow),
+
+        MovieHorizontalListview(
+          movies: nowPlayingMovies,
+          title: 'In theaters',
+          subTitle: 'Monday 20th',
+        )
       ],
     );
   }
