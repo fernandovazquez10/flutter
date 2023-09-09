@@ -76,20 +76,13 @@ class _MovieDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(18),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  movie.posterPath,
-                  width: size.width * 0.3,
-                ),
-              ),
-              const SizedBox(width: 10),
+              
               SizedBox(
-                width: (size.width - 40) * 0.7,
+                width: size.width - 36,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -144,34 +137,12 @@ class _CustomSliverAppBar extends StatelessWidget {
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        title: Text(
-          movie.title,
-          style: const TextStyle(fontSize: 20),
-          textAlign: TextAlign.start,
-          
-        ),
         background: Stack(
           children: [
             SizedBox.expand(
               child: Image.network(
                 movie.posterPath,
                 fit: BoxFit.cover,
-              ),
-            ),
-
-            const SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.75, 1],
-                    colors: [
-                      Colors.transparent,
-                      Colors.black54
-                    ]
-                  )
-                )
               ),
             ),
 
