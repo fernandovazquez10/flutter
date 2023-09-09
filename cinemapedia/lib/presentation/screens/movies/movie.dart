@@ -86,7 +86,7 @@ class _MovieDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(movie.title, style: textStyle.titleLarge),
+                    Text(movie.title, style: textStyle.titleLarge, textAlign: TextAlign.center),
                     Text(movie.overview)
                   ],
                 ),
