@@ -13,24 +13,23 @@ typedef SearchMoviesCAllback = Future<List<Movie>> Function(String query);
 class SearchMovieDelegate extends SearchDelegate<Movie?>{
 
   final SearchMoviesCAllback searchMovies;
+  List<Movie> initialMovies;
   StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
   Timer? _debounceTimer;
 
   SearchMovieDelegate({
-    required this.searchMovies
+    required this.searchMovies,
+    this.initialMovies = const [],
     });
 
   void _onQueryChanged( String query ){
     if ( _debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
 
     _debounceTimer = Timer( const Duration(milliseconds: 500), () async {
-      if (query.isEmpty) {
-        debouncedMovies.add([]);
-        return; 
-      }
 
       final movies = await searchMovies(query);
       debouncedMovies.add(movies);
+      initialMovies = movies;
     });
   }
   
@@ -67,7 +66,31 @@ class SearchMovieDelegate extends SearchDelegate<Movie?>{
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text('BuildResults');
+    return StreamBuilder(
+      initialData: initialMovies,
+      stream: debouncedMovies.stream,
+      builder: (context, snapshot){
+
+        final movies = snapshot.data != null 
+          ?  snapshot.data!.where(
+            (movie) => movie.posterPath != 'no-poster'
+            ).toList() 
+          : [];
+
+        return ListView.builder(
+          itemCount: movies.length,
+          itemBuilder: (context, index){
+            return _MovieItem(
+              movie: movies[index],
+              onMovieSelected: (context, movie){
+                clearStreams();
+                close(context, movie);
+              },
+            );
+          }
+        );
+      }
+    );
   }
 
   @override
@@ -77,6 +100,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?>{
 
     return StreamBuilder(
       // future: searchMovies(query),
+      initialData: initialMovies,
       stream: debouncedMovies.stream,
       builder: (context, snapshot){
 
