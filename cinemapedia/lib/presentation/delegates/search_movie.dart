@@ -37,6 +37,34 @@ class SearchMovieDelegate extends SearchDelegate<Movie?>{
     debouncedMovies.close();
   }
 
+  Widget buildResultsAndSuggestions( BuildContext context) {
+    return StreamBuilder(
+      initialData: initialMovies,
+      stream: debouncedMovies.stream,
+      builder: (context, snapshot){
+
+        final movies = snapshot.data != null 
+          ?  snapshot.data!.where(
+            (movie) => movie.posterPath != 'no-poster'
+            ).toList() 
+          : [];
+
+        return ListView.builder(
+          itemCount: movies.length,
+          itemBuilder: (context, index){
+            return _MovieItem(
+              movie: movies[index],
+              onMovieSelected: (context, movie){
+                clearStreams();
+                close(context, movie);
+              },
+            );
+          }
+        );
+      }
+    );
+  }
+
   @override
   String get searchFieldLabel => 'Buscar película';
 
@@ -66,31 +94,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?>{
 
   @override
   Widget buildResults(BuildContext context) {
-    return StreamBuilder(
-      initialData: initialMovies,
-      stream: debouncedMovies.stream,
-      builder: (context, snapshot){
-
-        final movies = snapshot.data != null 
-          ?  snapshot.data!.where(
-            (movie) => movie.posterPath != 'no-poster'
-            ).toList() 
-          : [];
-
-        return ListView.builder(
-          itemCount: movies.length,
-          itemBuilder: (context, index){
-            return _MovieItem(
-              movie: movies[index],
-              onMovieSelected: (context, movie){
-                clearStreams();
-                close(context, movie);
-              },
-            );
-          }
-        );
-      }
-    );
+    return buildResultsAndSuggestions(context);
   }
 
   @override
@@ -98,32 +102,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?>{
 
     _onQueryChanged(query);
 
-    return StreamBuilder(
-      // future: searchMovies(query),
-      initialData: initialMovies,
-      stream: debouncedMovies.stream,
-      builder: (context, snapshot){
-
-        final movies = snapshot.data != null 
-          ?  snapshot.data!.where(
-            (movie) => movie.posterPath != 'no-poster'
-            ).toList() 
-          : [];
-
-        return ListView.builder(
-          itemCount: movies.length,
-          itemBuilder: (context, index){
-            return _MovieItem(
-              movie: movies[index],
-              onMovieSelected: (context, movie){
-                clearStreams();
-                close(context, movie);
-              },
-            );
-          }
-        );
-      }
-    );
+    return buildResultsAndSuggestions(context);
   }
 
 }
