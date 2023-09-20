@@ -4,7 +4,6 @@ import 'package:animate_do/animate_do.dart';
 
 import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/presentation/providers/movies/movie_details.dart';
 
 
 class MovieScreen extends ConsumerStatefulWidget {
@@ -185,16 +184,26 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
-class _CustomSliverAppBar extends StatelessWidget {
+final isFavoriteProvider = FutureProvider.family.autoDispose((ref, int movieId) {
+
+  final localStorageRepository = ref.watch(localStorageRepositoryProvider);
+
+  return localStorageRepository.isMovieFavorite(movieId);
+});
+
+class _CustomSliverAppBar extends ConsumerWidget {
   
   final Movie movie;
   
+
   const _CustomSliverAppBar({
     required this.movie
     });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final isFavoriteFuture = ref.watch(isFavoriteProvider(movie.id));
 
     final size = MediaQuery.of(context).size;
 
@@ -205,9 +214,17 @@ class _CustomSliverAppBar extends StatelessWidget {
       actions: [
         IconButton(
           onPressed: (){
-            // TODO: Regresar toggle
+            ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+
+            ref.invalidate(isFavoriteProvider(movie.id));
           }, 
-          icon: const Icon( Icons.favorite_border ),
+          icon: isFavoriteFuture.when(
+            data: (isFavorite) => isFavorite
+            ? const Icon( Icons.favorite_rounded, color: Colors.red,) 
+            : const Icon( Icons.favorite_border ),
+            error: (_,__) => throw UnimplementedError(),
+            loading: ()=> const CircularProgressIndicator(strokeWidth: 2)
+          ),
         )
       ],
       flexibleSpace: FlexibleSpaceBar(
@@ -231,9 +248,9 @@ class _CustomSliverAppBar extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    stops: [0, 0.15],
+                    stops: [0, 0.14],
                     colors: [
-                      Colors.black54,
+                      Colors.black45,
                       Colors.transparent,
                     ]
                   )
