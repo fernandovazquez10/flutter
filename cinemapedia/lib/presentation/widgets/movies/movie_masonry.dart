@@ -22,7 +22,7 @@ class MovieMasonry extends StatefulWidget {
 
 class _MovieMasonryState extends State<MovieMasonry> {
 
-  final scrollController = ScrollController(initialScrollOffset: 1);
+  final scrollController = ScrollController();
 
   @override
   void initState() {
