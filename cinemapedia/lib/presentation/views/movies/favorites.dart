@@ -24,7 +24,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     loadNextPage();
   }
 
-  void loadNextPage() async{
+  void loadNextPage() async {
     if ( isLastPage || isLoading ) return;
     isLoading = true;
 
@@ -40,7 +40,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
   @override
   Widget build(BuildContext context) {
 
-    final List<Movie> favoritesMovies = ref.watch( favoriteMoviesProvider ).values.toList() ;
+    final List<Movie> favoritesMovies = ref.watch( favoriteMoviesProvider ).values.toList();
 
     return Scaffold(
       body: MovieMasonry(
