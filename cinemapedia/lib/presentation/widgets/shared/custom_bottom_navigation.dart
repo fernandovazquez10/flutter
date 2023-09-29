@@ -27,8 +27,8 @@ class CustomButtonNavigation extends StatelessWidget {
         ),
 
         BottomNavigationBarItem(
-          label: 'Categories',
-          icon: Icon(Icons.label_outline)
+          label: 'Trending topic',
+          icon: Icon(Icons.trending_up_sharp)
         ),
 
         BottomNavigationBarItem(
