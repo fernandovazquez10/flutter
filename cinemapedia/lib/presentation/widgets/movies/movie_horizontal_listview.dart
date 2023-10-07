@@ -95,7 +95,7 @@ class _Slide extends StatelessWidget {
                       height: 180,
                       fit: BoxFit.cover,
                       placeholder: const AssetImage(
-                          'assets/loaders/bottle-loader.gif'),
+                          'assets/loaders/clapperboard-loader.gif'),
                       image: NetworkImage(movie.posterPath),
                     )),
               )),

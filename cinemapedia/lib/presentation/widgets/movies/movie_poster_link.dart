@@ -18,7 +18,7 @@ class MoviePosterLink extends StatelessWidget {
             child: FadeInImage(
               height: 180,
               fit: BoxFit.cover,
-              placeholder: const AssetImage('assets/loaders/bottle-loader.gif'),
+              placeholder: const AssetImage('assets/loaders/clapperboard-loader.gif'),
               image: NetworkImage(movie.posterPath),
             )),
       ),
