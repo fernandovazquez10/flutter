@@ -113,6 +113,11 @@ class _MovieDetails extends StatelessWidget {
         ),
         _ActorsByMovie(movieId: movie.id.toString()),
         const SizedBox(height: 50),
+        // TODO: Trailer
+        const Placeholder(),
+
+        // TODO: Recomendadas
+       
       ],
     );
   }
