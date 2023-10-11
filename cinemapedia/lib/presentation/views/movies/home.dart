@@ -58,7 +58,9 @@ class HomeViewState extends ConsumerState<HomeView> {
           return Column(
             children: [
               
-              MoviesSlideshow(movies: moviesSlideshow),
+              MoviesSlideshow(
+                movies: moviesSlideshow
+              ),
               MovieHorizontalListview(
                 movies: nowPlayingMovies,
                 title: 'En cines',
