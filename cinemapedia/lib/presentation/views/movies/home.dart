@@ -1,5 +1,7 @@
+import 'package:cinemapedia/config/helpers/human_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 import 'package:cinemapedia/presentation/providers/providers.dart';
@@ -18,7 +20,7 @@ class HomeViewState extends ConsumerState<HomeView> {
   void initState() {
     super.initState();
 
-    // initializeDateFormatting(); Todo: Capitalize for spanish
+    initializeDateFormatting();
     ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage();
     ref.read( popularMoviesProvider.notifier ).loadNextPage();
     ref.read( topRatedMoviesProvider.notifier ).loadNextPage();
@@ -33,14 +35,13 @@ class HomeViewState extends ConsumerState<HomeView> {
 
     final moviesSlideshow = ref.watch( moviesSlideshowProvider );
     final nowPlayingMovies = ref.watch( nowPlayingMoviesProvider );
-    // final popularMovies = ref.watch( popularMoviesProvider );
     final topRatedMovies = ref.watch( topRatedMoviesProvider );
     final upComingMovies = ref.watch( upComingMoviesProvider );
 
     
     final DateTime now = DateTime.now();
-    final String today = DateFormat.MMMMEEEEd('en_US').format(now);
-    final String thisMonth = DateFormat.MMMM('en_US').format(now);
+    final String today = HumanFormat.spanishDate( DateFormat.MMMMEEEEd('es_MX').format(now) );
+    final String thisMonth = HumanFormat.spanishDate(  DateFormat.MMMM('es_MX').format(now) );
 
     return CustomScrollView(slivers: [
       
@@ -60,7 +61,7 @@ class HomeViewState extends ConsumerState<HomeView> {
               MoviesSlideshow(movies: moviesSlideshow),
               MovieHorizontalListview(
                 movies: nowPlayingMovies,
-                title: 'In theaters',
+                title: 'En cines',
                 subTitle: today,
                 loadNextPage: () {
                   ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
@@ -68,23 +69,16 @@ class HomeViewState extends ConsumerState<HomeView> {
               ),
               MovieHorizontalListview(
                 movies: upComingMovies,
-                title: 'Up coming',
+                title: 'Proximamente',
                 subTitle: thisMonth,
                 loadNextPage: () {
                   ref.read(upComingMoviesProvider.notifier).loadNextPage();
                 },
               ),
-              // MovieHorizontalListview(
-              //  movies: popularMovies,
-              //  title: 'Popular',
-              //  loadNextPage: () {
-              //    ref.read(popularMoviesProvider.notifier).loadNextPage();
-              //  },
-              // ),
               MovieHorizontalListview(
                 movies: topRatedMovies,
-                title: 'Top rating',
-                subTitle: 'All times',
+                title: 'Mejor calificadas',
+                subTitle: 'Siempre',
                 loadNextPage: () {
                   ref.read( topRatedMoviesProvider.notifier ).loadNextPage();
                 },
