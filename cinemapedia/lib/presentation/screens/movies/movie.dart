@@ -119,11 +119,9 @@ class _MovieDetails extends StatelessWidget {
 
         VideosFromMovieWidget( movieId: movie.id ),
 
-        const SizedBox( height: 20 ),
+        const SizedBox( height: 30 ),
 
         SimilarMoviesWidget(movieId: movie.id),
-
-        const SizedBox( height: 50 )
         
       ],
     );
