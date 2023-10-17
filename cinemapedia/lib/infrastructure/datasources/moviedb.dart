@@ -99,7 +99,7 @@ class MoviedbDatasource extends MoviesDataSource {
   @override
   Future<List<Video>> getYoutubeVideos(int movieId) async {
     final response = await dio.get(
-      '/movie/$movieId/video',
+      '/movie/$movieId/videos',
     );
     final moviedbVideosResponse = MoviedbVideosResponse.fromJson(response.data);
     final videos = <Video>[];
