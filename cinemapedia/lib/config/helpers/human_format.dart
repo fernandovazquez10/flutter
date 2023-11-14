@@ -10,4 +10,17 @@ class HumanFormat {
     return formatterNumber;
   }
 
+  static String spanishDate( String date ) {
+    return date
+    .split(' ')
+    .map((String word){
+      if (word != 'de'){
+        return word.replaceFirst(word[0], word[0].toUpperCase());
+      } else {
+        return word;
+      }
+    })
+    .join(' ');
+  }
+
 }

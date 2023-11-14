@@ -52,6 +52,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
     return SizedBox(
       height: 350,
       child: Column(
+        
         children: [
           if (widget.title != null || widget.subTitle != null)
             _Title(title: widget.title, subTitle: widget.subTitle),
@@ -92,10 +93,10 @@ class _Slide extends StatelessWidget {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: FadeInImage(
-                      height: 180,
+                      height: 220,
                       fit: BoxFit.cover,
                       placeholder: const AssetImage(
-                          'assets/loaders/bottle-loader.gif'),
+                          'assets/loaders/clapperboard-loader.gif'),
                       image: NetworkImage(movie.posterPath),
                     )),
               )),

@@ -1,3 +1,4 @@
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
@@ -99,20 +100,30 @@ class _MovieDetails extends StatelessWidget {
         // Generos de la pelicula
         Padding(
           padding: const EdgeInsets.all(8),
-          child: Wrap(
-            children: [
-              ...movie.genreIds.map((gender) => Container(
-                margin: const EdgeInsets.all(10),
-                child: Chip(
-                  label: Text(gender),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                ),
-              ))
-            ],
+          child: Center(
+            child: Wrap(
+              children: [
+                ...movie.genreIds.map((gender) => Container(
+                  margin: const EdgeInsets.all(10),
+                  child: Chip(
+                    label: Text(gender),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  ),
+                ))
+              ],
+            ),
           ),
         ),
-        _ActorsByMovie(movieId: movie.id.toString()),
-        const SizedBox(height: 50),
+        _ActorsByMovie( movieId: movie.id.toString() ),
+        const SizedBox( height: 20 ),
+
+        VideosFromMovieWidget( movieId: movie.id ),
+
+        const SizedBox( height: 50 ),
+
+        SimilarMoviesWidget(movieId: movie.id),
+
+        const SizedBox( height: 20 ),        
       ],
     );
   }
