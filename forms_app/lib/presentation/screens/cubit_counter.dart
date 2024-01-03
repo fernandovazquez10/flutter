@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forms_app/presentation/blocs/counter_cubit/counter_cubit.dart';
 
 
 class CubitCounterScreen extends StatelessWidget {
@@ -6,18 +8,44 @@ class CubitCounterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => CounterCubit(),
+      child: const _CubitCounterView()
+    );
+  }
+}
+
+class _CubitCounterView extends StatelessWidget {
+  const _CubitCounterView();
+
+  void increaseCounterBy(BuildContext context, [int value = 0]) {
+    context.read<CounterCubit>().increaseby(value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    final counterState = context.watch<CounterCubit>().state;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cubit counter'),
+        title: Text('Cubit counter: ${ counterState.transactionCount }'),
         actions: [
           IconButton(
-            onPressed: (){},
+            onPressed: (){
+              context.read<CounterCubit>().reset();
+            },
             icon: const Icon( Icons.refresh_outlined )
           )
         ],
       ),
-      body: const Center(
-        child: Text('Conter value: x'),
+      body: Center(
+        child: BlocBuilder<CounterCubit, CounterState>(
+          buildWhen: (previous, current) => previous.counter != current.counter,
+          builder: (context, state){
+            return Text('Conter value: ${state.counter}');
+          }
+        ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -25,7 +53,7 @@ class CubitCounterScreen extends StatelessWidget {
           FloatingActionButton(
             heroTag: '1',
             child: const Text('+1'),
-            onPressed: (){}
+            onPressed: ()=> increaseCounterBy(context, 1)
           ),
 
           const SizedBox(height: 10),
@@ -33,7 +61,7 @@ class CubitCounterScreen extends StatelessWidget {
           FloatingActionButton(
             heroTag: '2',
             child: const Text('+2'),
-            onPressed: (){}
+            onPressed: ()=> increaseCounterBy(context, 2)
           ),
 
           const SizedBox(height: 10),
@@ -41,7 +69,7 @@ class CubitCounterScreen extends StatelessWidget {
           FloatingActionButton(
             heroTag: '3',
             child: const Text('+3'),
-            onPressed: (){}
+            onPressed: ()=> increaseCounterBy(context, 3)
           )
         ]
       ),
